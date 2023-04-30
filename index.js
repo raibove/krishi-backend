@@ -141,8 +141,6 @@ app.post("/fertilizer-recommendation", async function (req, res) {
 
 // Run the API
 const port = 9000;
-app.listen(port, () => {
-	console.log(`Listening at Port http://localhost:${port}`);
-});
+app.listen(process.env.PORT || port);
 
 module.exports = app;
