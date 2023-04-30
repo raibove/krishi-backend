@@ -21,14 +21,14 @@ const connectToMindsDB = async (user) => {
 	await MindsDB.default.connect(user);
 };
 
-const getCropPrediction = async (text) => {
+const getCropPrediction = async (crop) => {
 	const model = await MindsDB.default.Models.getModel(
 		"crop_predic",
 		"mindsdb"
 	);
 
 	const queryOptions = {
-		where: [`text_long = "${text}"`],
+		where: [`text_long = "${crop}"`],
 	};
 
 	const prediction = await model.query(queryOptions);
@@ -80,10 +80,10 @@ app.get("/", function (req, res) {
 });
 
 app.post("/crop-recommendation", async function (req, res) {
-	let text = req.body.text;
+	let crop = req.body.crop;
 	try {
 		await connectToMindsDB(user);
-		let cropPrediction = await getCropPrediction(text);
+		let cropPrediction = await getCropPrediction(crop);
         console.log(cropPrediction.value)
 		let retValue = cropPrediction.value;
 		res.json({ crop: retValue });
